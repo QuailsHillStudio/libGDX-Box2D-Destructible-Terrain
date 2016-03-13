@@ -16,34 +16,6 @@ public class GroundFixture{
 		this.setVerts(verts);
 	}
 	
-	public void clippingFixture(Body b,float circRadius, int segments){
-		List<PolygonBox2DShape> totalRS = new ArrayList<PolygonBox2DShape>();
-		
-		float[] circVerts = CollisionGeometry.approxCircle(b.getPosition().x, b.getPosition().y, circRadius, segments );
-		ChainShape shape = new ChainShape();
-		shape.createLoop(circVerts);
-		   
-		PolygonBox2DShape circlePoly = new PolygonBox2DShape(shape);
-
-		int fixCount = this.getVerts().size();
-		System.out.println("FixCount : " + fixCount);
-		for(int i =0; i < fixCount; i++){
-			
-			PolygonBox2DShape polyClip = new PolygonBox2DShape(this.getVerts().get(i));
-			   
-			   List<PolygonBox2DShape> rs = polyClip.differenceCS(circlePoly);
-			   System.out.println("Size : "+ rs.size());
-			   for(int y = 0; y < rs.size(); y++){
-				   if(!CollisionGeometry.isPolygonInCircle(rs.get(y).vertices(), b.getPosition(), circRadius))
-				   totalRS.add(rs.get(y));
-			   }  
-		}
-        getVerts().clear();
-		for(int i = 0; i < totalRS.size(); i++){
-			getVerts().add(totalRS.get(i).vertices());
-		}
-	}
-	
 	public Body getBody() {
 		return this.body;
 	}

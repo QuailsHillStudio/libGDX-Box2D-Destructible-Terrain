@@ -96,7 +96,7 @@ public class PolygonBox2DShape extends Polygon{
 	        Vertex v = first;
 	        for (int i = 0, j = 0; i < vertices - 1; i++) {
 	        	// Here escape the verts that have a square distance > 0.005f * 0.005f to avoid the b2DistanceSquared(v1,v2) > 0.005f * 0.005f expression
-	        	if(v.equals(first) || (b2SquaredDistance(verts.get(j-2), verts.get(j-1), v.x, v.y) > (0.25f))){
+	        	if(v.equals(first) || (b2SquaredDistance(verts.get(j-2), verts.get(j-1), v.x, v.y) > (0.35f))){
 	            	verts.add(v.x);
 	            	j++;
 	            	verts.add(v.y);
@@ -148,6 +148,7 @@ public class PolygonBox2DShape extends Polygon{
 	    	this.circPos = vec;
 	    	this.circRadius = radius;
 	    }
+	    
 	    private float b2SquaredDistance(float x1,float y1,float x2,float y2){
 	    	Vector2 vec = new Vector2(x1, y1);
 	    	return vec.dst2(x2, y2);
