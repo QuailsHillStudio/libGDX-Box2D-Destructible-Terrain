@@ -74,20 +74,21 @@ public class PolygonClipping extends ApplicationAdapter {
 			Vector3 box2Dpos = camera.unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
 			createBall(type, new Vector2(box2Dpos.x, box2Dpos.y));
 		}
-		if(mustCreate)
-			createGround();
 		
 		for (int i = 0; i < world.getBodyCount(); i++) {
 			Array<Body> bodies = new Array<Body>();
 			world.getBodies(bodies );
 			UserData data = ((UserData) bodies.get(i).getUserData());
 			if (data != null && data.getType() == UserData.GROUND) {
-				if (data.mustDestroy && !data.destroyed) {
+				if ((data.mustDestroy || mustCreate) && !data.destroyed) {
 					world.destroyBody(bodies.get(i));
 					bodies.removeIndex(i);
 				}
 			}
 		}
+		
+		if(mustCreate)
+			createGround();
 		
 		box2dTimeStep(Gdx.graphics.getDeltaTime());
 	}
@@ -95,7 +96,6 @@ public class PolygonClipping extends ApplicationAdapter {
 	public void switchGround(List<PolygonBox2DShape> rs) {
 		mustCreate = true;
 		List<float[]> verts = new ArrayList<float[]>();
-
 		for (int i = 0; i < rs.size(); i++) {
 			verts.add(rs.get(i).verticesToLoop());
 		}
